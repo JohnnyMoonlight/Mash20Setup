@@ -17,8 +17,8 @@ sudo dpkg -i web20mash.deb
 # GPIO pin 20 is physical pin 38 (with pins showing to the lower side 'second pin in the bottom row from the right')
 
 echo "dtoverlay=w1-gpio,gpiopin=20" > /boot/config.txt
-cp owfs.conf /etc/owfs.conf
-cp sysfs.conf /etc/sysfs.conf
+cp ./conf/owfs.conf /etc/owfs.conf
+cp ./conf/sysfs.conf /etc/sysfs.conf
 
 
 sudo apt install procps iproute2 dnsmasq iptableshostapd iw iwconfig
