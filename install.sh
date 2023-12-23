@@ -19,7 +19,7 @@ sudo dpkg -i web20mash.deb
 echo "dtoverlay=w1-gpio,gpiopin=20" > /boot/config.txt
 cp ./conf/owfs.conf /etc/owfs.conf
 cp ./conf/sysfs.conf /etc/sysfs.conf
-
+cp ./conf/mashctld.conf /etc/mashctld.conf
 
 sudo apt install procps iproute2 dnsmasq iptableshostapd iw iwconfig
 # Set hostname
