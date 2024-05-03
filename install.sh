@@ -5,7 +5,7 @@
 
 # GPIO pin 20 is physical pin 38 (with pins showing to the lower side 'second pin in the bottom row from the right')
 PIN_NUMBER=20
-IP_ADDRESS = 192.168.0.1
+IP_ADDRESS=192.168.0.1
 SUBNETMASK=255.255.255.0
 SSID=webmash
 DEFAULT_PASSPHRASE=12345678
@@ -42,14 +42,21 @@ cp ./conf/mashctld.conf /etc/mashctld.conf
 # Setup access point
 sudo apt install hostapd dnsmasq
 
-NETWORK_CONFIG="auto wlan0\niface wlan0 inet static\n   address $IP_ADDRESS\n   netmask $SUBNETMASK\n   up ip link set wlan0 up"
+NETWORK_CONFIG="auto wlan0
+   iface wlan0 inet static
+   address $IP_ADDRESS
+   netmask $SUBNETMASK
+   up ip link set wlan0 up"
 
 INTERFACES_CONFIG_FILE="/etc/network/interfaces"
 
-echo "Writing network config to interfaces file. \n Config: $NETWORK_CONFIG \n Interfaces file: $INTERFACES_CONFIG_FILE"
+echo "Writing network config to interfaces file.
+Config: $NETWORK_CONFIG
+
+Interfaces file: $INTERFACES_CONFIG_FILE"
 
 
-echo $NETWORK_CONFIG > $INTERFACES_CONFIG_FILE
+echo $NETWORK_CONFIG >> $INTERFACES_CONFIG_FILE
 
 ACCESS_POINT_CONFIG="country_code=DE
 interface=wlan0
@@ -65,12 +72,15 @@ rsn_pairwise=CCMP
 
 ACCESS_POINT_CONFIG_FILE="/etc/default/hostapd"
 
-echo "Writing access point config to hostapd-config. \n Config: $ACCESS_POINT_CONFIG \n Config file: $ACCESS_POINT_CONFIG_FILE"
+echo "Writing access point config to hostapd-config.
+Config: $ACCESS_POINT_CONFIG
 
-echo $ACCESS_POINT_CONFIG > $ACCESS_POINT_CONFIG_FILE
+Config file: $ACCESS_POINT_CONFIG_FILE"
+
+echo $ACCESS_POINT_CONFIG >> $ACCESS_POINT_CONFIG_FILE
 
 sudo systemctl enable dnsmasq
-#sudo systemctl enable webmash
+sudo systemctl enable webmash
 sudo systemctl enable hostapd
 sudo systemctl enable ssh
 
