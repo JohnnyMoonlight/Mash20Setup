@@ -30,14 +30,12 @@ sudo apt install debhelper libmicrohttpd-dev libmagic-dev xcftools inkscape libi
 git clone https://github.com/giggls/web20mash.git
 cd web20mash
 DEB_PACKAGE=web20mash dpkg-buildpackage -uc -b
-sudo dpkg -i web20mash.deb
+sudo dpkg -i web20mash_4.2.2_armhf.deb
 
-
-
-echo "dtoverlay=w1-gpio,gpiopin=$PIN_NUMBER" > /boot/config.txt
-cp ./conf/owfs.conf /etc/owfs.conf
-cp ./conf/sysfs.conf /etc/sysfs.conf
-cp ./conf/mashctld.conf /etc/mashctld.conf
+sudo echo "dtoverlay=w1-gpio,gpiopin=$PIN_NUMBER" > /boot/config.txt
+sudo cp ../conf/owfs.conf /etc/owfs.conf
+sudo cp ../conf/sysfs.conf /etc/sysfs.conf
+sudo cp ../conf/mashctld.conf /etc/mashctld.conf
 
 # Setup access point
 sudo apt install hostapd dnsmasq
@@ -56,7 +54,7 @@ Config: $NETWORK_CONFIG
 Interfaces file: $INTERFACES_CONFIG_FILE"
 
 
-echo $NETWORK_CONFIG >> $INTERFACES_CONFIG_FILE
+sudo echo $NETWORK_CONFIG | sudo tee -a $INTERFACES_CONFIG_FILE
 
 ACCESS_POINT_CONFIG="country_code=DE
 interface=wlan0
@@ -77,8 +75,9 @@ Config: $ACCESS_POINT_CONFIG
 
 Config file: $ACCESS_POINT_CONFIG_FILE"
 
-echo $ACCESS_POINT_CONFIG >> $ACCESS_POINT_CONFIG_FILE
+sudo echo $ACCESS_POINT_CONFIG | sudo tee -a $ACCESS_POINT_CONFIG_FILE
 
+sudo systemctl disable dhcpcd.service
 sudo systemctl enable dnsmasq
 sudo systemctl enable webmash
 sudo systemctl enable hostapd
