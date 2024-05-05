@@ -32,7 +32,7 @@ cd web20mash
 DEB_PACKAGE=web20mash dpkg-buildpackage -uc -b
 sudo dpkg -i web20mash_4.2.2_armhf.deb
 
-sudo echo "dtoverlay=w1-gpio,gpiopin=$PIN_NUMBER" > /boot/config.txt
+sudo echo "dtoverlay=w1-gpio,gpiopin=$PIN_NUMBER" | sudo tee -a /boot/config.txt
 sudo cp ../conf/owfs.conf /etc/owfs.conf
 sudo cp ../conf/sysfs.conf /etc/sysfs.conf
 sudo cp ../conf/mashctld.conf /etc/mashctld.conf
