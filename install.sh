@@ -9,6 +9,13 @@ IP_ADDRESS=192.168.0.1
 SUBNETMASK=255.255.255.0
 SSID=webmash
 DEFAULT_PASSPHRASE=12345678
+WORKDIR=`pwd`
+
+# Check for sudo user.
+if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run as root."
+    exit 100
+fi
 
 # Check for supported Raspberry Pi version
 rev=$(awk '/^Revision/ { print $3 }' /proc/cpuinfo)
@@ -21,9 +28,19 @@ else
    exit 1
 fi
 
+echo "Using $PIN_NUMBER as temperature sensor input pin."
+echo "Using $IP_ADDRESS as router IP."
+echo "Applying $SUBNETMASK as subnetmask."
+echo "Hotspot will be available under $SSID"
+echo "Passphrase is $DEFAULT_PASSPHRASE"
+
+# Update packages
+sudo apt update
+sudo apt upgrade
+
 # Install dependencies
 
-sudo apt install debhelper libmicrohttpd-dev libmagic-dev xcftools inkscape libi2c-dev libmnl-dev libcurl4-gnutls-dev libusb-dev libow-dev sysfsutils owfs git
+sudo apt install debhelper libmicrohttpd-dev libmagic-dev xcftools inkscape libi2c-dev libmnl-dev libcurl4-gnutls-dev libusb-dev libow-dev sysfsutils owfs 
 
 
 # Clone, build and install Web20Mash
@@ -31,6 +48,8 @@ git clone https://github.com/giggls/web20mash.git
 cd web20mash
 DEB_PACKAGE=web20mash dpkg-buildpackage -uc -b
 sudo dpkg -i web20mash_4.2.2_armhf.deb
+
+cd $WORKDIR
 
 sudo echo "dtoverlay=w1-gpio,gpiopin=$PIN_NUMBER" | sudo tee -a /boot/config.txt
 sudo cp ../conf/owfs.conf /etc/owfs.conf
@@ -40,42 +59,42 @@ sudo cp ../conf/mashctld.conf /etc/mashctld.conf
 # Setup access point
 sudo apt install hostapd dnsmasq
 
-NETWORK_CONFIG="auto wlan0
-   iface wlan0 inet static
-   address $IP_ADDRESS
-   netmask $SUBNETMASK
-   up ip link set wlan0 up"
+#NETWORK_CONFIG="auto wlan0
+#   iface wlan0 inet static
+#   address $IP_ADDRESS
+#   netmask $SUBNETMASK
+#   up ip link set wlan0 up"
 
 INTERFACES_CONFIG_FILE="/etc/network/interfaces"
 
 echo "Writing network config to interfaces file.
-Config: $NETWORK_CONFIG
+Config: `cat ./conf/ap-config/interfaces`
 
 Interfaces file: $INTERFACES_CONFIG_FILE"
 
 
-sudo echo $NETWORK_CONFIG | sudo tee -a $INTERFACES_CONFIG_FILE
+sudo echo "`IP_ADRESS=$IP_ADRESS SUBNETMASK=$SUBNETMASK envsubst < ./conf/ap-config/interfaces`" | sudo tee -a $INTERFACES_CONFIG_FILE
 
-ACCESS_POINT_CONFIG="country_code=DE
-interface=wlan0
-ssid=$SSID
-channel=9
-auth_algs=1
-wpa=2
-wpa_passphrase=$DEFAULT_PASSPHRASE
-wpa_key_mgmt=WPA-PSK
-wpa_pairwise=TKIP CCMP
-rsn_pairwise=CCMP
-"
+#ACCESS_POINT_CONFIG="country_code=DE
+#interface=wlan0
+#ssid=$SSID
+#channel=9
+#auth_algs=1
+#wpa=2
+#wpa_passphrase=$DEFAULT_PASSPHRASE
+#wpa_key_mgmt=WPA-PSK
+#wpa_pairwise=TKIP CCMP
+#rsn_pairwise=CCMP
+#"
 
 ACCESS_POINT_CONFIG_FILE="/etc/default/hostapd"
 
 echo "Writing access point config to hostapd-config.
-Config: $ACCESS_POINT_CONFIG
+Config: `cat $ACCESS_POINT_CONFIG`
 
 Config file: $ACCESS_POINT_CONFIG_FILE"
 
-sudo echo $ACCESS_POINT_CONFIG | sudo tee -a $ACCESS_POINT_CONFIG_FILE
+echo "`SSID=$SSID DEFAULT_PASSPHRASE=$DEFAULT_PASSPHRASE envsubst < ./conf/ap-config/hostapd`" | sudo tee -a $ACCESS_POINT_CONFIG_FILE
 
 sudo systemctl disable dhcpcd.service
 sudo systemctl enable dnsmasq
