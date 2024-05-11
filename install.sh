@@ -58,7 +58,8 @@ sudo cp ../conf/mashctld.conf /etc/mashctld.conf
 
 # Setup access point
 sudo apt install hostapd 
-sudo apt install dnsmasq
+# Remove dnsmasq, as OS Bookworm uses dnsmasq-base
+sudo apt remove dnsmasq
 
 #NETWORK_CONFIG="auto wlan0
 #   iface wlan0 inet static
@@ -74,36 +75,20 @@ Config: `cat ./conf/ap-config/interfaces`
 Interfaces file: $INTERFACES_CONFIG_FILE"
 
 
-sudo echo "`IP_ADRESS=$IP_ADRESS SUBNETMASK=$SUBNETMASK envsubst < ./conf/ap-config/interfaces`" | sudo tee -a $INTERFACES_CONFIG_FILE
+sudo echo "`IP_ADDRESS=$IP_ADDRESS SUBNETMASK=$SUBNETMASK envsubst < ./conf/ap-config/interfaces`" | sudo tee -a $INTERFACES_CONFIG_FILE
 
-#ACCESS_POINT_CONFIG="country_code=DE
-#interface=wlan0
-#ssid=$SSID
-#channel=9
-#auth_algs=1
-#wpa=2
-#wpa_passphrase=$DEFAULT_PASSPHRASE
-#wpa_key_mgmt=WPA-PSK
-#wpa_pairwise=TKIP CCMP
-#rsn_pairwise=CCMP
-#"
+nmcli con add type wifi ifname wlan0 con-name $SSID autoconnect yes ssid $SSID
+nmcli con modify $SSID 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared
+nmcli con modify $SSID wifi-sec.key-mgmt wpa-psk
+nmcli con modify $SSID wifi-sec.psk $DEFAULT_PASSWORD
+nmcli con up $SSID
 
-ACCESS_POINT_CONFIG_FILE="/etc/default/hostapd"
 
-echo "Writing access point config to hostapd-config.
-Config: `cat $ACCESS_POINT_CONFIG`
-
-Config file: $ACCESS_POINT_CONFIG_FILE"
-
-sudo echo "`SSID=$SSID DEFAULT_PASSPHRASE=$DEFAULT_PASSPHRASE envsubst < ./conf/ap-config/hostapd`" | sudo tee -a $ACCESS_POINT_CONFIG_FILE
-
-sudo systemctl disable dhcpcd.service
-sudo systemctl enable dnsmasq
+#sudo systemctl disable dhcpcd.service
+#sudo systemctl enable dnsmasq
 sudo systemctl enable webmash
 sudo systemctl enable hostapd
 sudo systemctl enable ssh
-
-
 
 sudo reboot now
 
