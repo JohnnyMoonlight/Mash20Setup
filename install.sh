@@ -58,7 +58,7 @@ sudo cp ../conf/mashctld.conf /etc/mashctld.conf
 
 # Setup access point
 sudo apt install hostapd 
-#sudo apt install dnsmasq
+sudo apt install dnsmasq
 
 #NETWORK_CONFIG="auto wlan0
 #   iface wlan0 inet static
@@ -73,7 +73,8 @@ Config: `cat ./conf/ap-config/interfaces`
 
 Interfaces file: $INTERFACES_CONFIG_FILE"
 
-sudo "`IP_ADRESS=$IP_ADRESS SUBNETMASK=$SUBNETMASK envsubst < ./conf/ap-config/interfaces`" | sudo tee -a $INTERFACES_CONFIG_FILE
+
+sudo echo "`IP_ADRESS=$IP_ADRESS SUBNETMASK=$SUBNETMASK envsubst < ./conf/ap-config/interfaces`" | sudo tee -a $INTERFACES_CONFIG_FILE
 
 #ACCESS_POINT_CONFIG="country_code=DE
 #interface=wlan0
@@ -94,7 +95,7 @@ Config: `cat $ACCESS_POINT_CONFIG`
 
 Config file: $ACCESS_POINT_CONFIG_FILE"
 
-"`SSID=$SSID DEFAULT_PASSPHRASE=$DEFAULT_PASSPHRASE envsubst < ./conf/ap-config/hostapd`" | sudo tee -a $ACCESS_POINT_CONFIG_FILE
+sudo echo "`SSID=$SSID DEFAULT_PASSPHRASE=$DEFAULT_PASSPHRASE envsubst < ./conf/ap-config/hostapd`" | sudo tee -a $ACCESS_POINT_CONFIG_FILE
 
 sudo systemctl disable dhcpcd.service
 sudo systemctl enable dnsmasq
