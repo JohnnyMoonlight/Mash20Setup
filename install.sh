@@ -29,10 +29,10 @@ else
 fi
 
 echo "Using GPIO $PIN_NUMBER as temperature sensor input pin."
-echo "Using $IP_ADDRESS as router IP."
-echo "Applying $SUBNETMASK as subnetmask."
+#echo "Using $IP_ADDRESS as router IP."
+#echo "Applying $SUBNETMASK as subnetmask."
 echo "Hotspot will be available under $SSID"
-echo "Passphrase is $DEFAULT_PASSPHRASE"
+#echo "Passphrase is $DEFAULT_PASSPHRASE"
 
 # Update packages
 sudo apt update -y
@@ -85,8 +85,8 @@ nmcli con up $SSID
 #sudo systemctl disable dhcpcd.service
 #sudo systemctl enable dnsmasq
 sudo systemctl enable webmash
-sudo systemctl enable hostapd
-sudo systemctl enable ssh
+#sudo systemctl enable hostapd
+#sudo systemctl enable ssh
 
 sudo reboot now
 
