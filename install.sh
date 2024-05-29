@@ -5,10 +5,10 @@
 
 # GPIO pin 20 is physical pin 38 (with pins showing to the lower side 'second pin in the bottom row from the right')
 PIN_NUMBER=20
-IP_ADDRESS=192.168.0.1
-SUBNETMASK=255.255.255.0
+#IP_ADDRESS=192.168.0.1
+#SUBNETMASK=255.255.255.0
 SSID=webmash
-DEFAULT_PASSPHRASE=12345678
+#DEFAULT_PASSPHRASE=12345678
 WORKDIR=`pwd`
 
 # Check for sudo user.
@@ -35,8 +35,8 @@ echo "Hotspot will be available under $SSID"
 echo "Passphrase is $DEFAULT_PASSPHRASE"
 
 # Update packages
-sudo apt update
-sudo apt upgrade
+sudo apt update -y
+sudo apt upgrade -y
 
 # Install dependencies
 
@@ -57,9 +57,9 @@ sudo cp ../conf/sysfs.conf /etc/sysfs.conf
 sudo cp ../conf/mashctld.conf /etc/mashctld.conf
 
 # Setup access point
-sudo apt install hostapd 
+# sudo apt install hostapd 
 # Remove dnsmasq, as OS Bookworm uses dnsmasq-base
-sudo apt remove dnsmasq
+# sudo apt remove dnsmasq
 
 #NETWORK_CONFIG="auto wlan0
 #   iface wlan0 inet static
@@ -67,20 +67,18 @@ sudo apt remove dnsmasq
 #   netmask $SUBNETMASK
 #   up ip link set wlan0 up"
 
-INTERFACES_CONFIG_FILE="/etc/network/interfaces"
+# INTERFACES_CONFIG_FILE="/etc/network/interfaces"
 
-echo "Writing network config to interfaces file.
-Config: `cat ./conf/ap-config/interfaces`
+# echo "Writing network config to interfaces file.
+# Config: `cat ./conf/ap-config/interfaces`
 
-Interfaces file: $INTERFACES_CONFIG_FILE"
+# Interfaces file: $INTERFACES_CONFIG_FILE"
 
 
-sudo echo "`IP_ADDRESS=$IP_ADDRESS SUBNETMASK=$SUBNETMASK envsubst < ./conf/ap-config/interfaces`" | sudo tee -a $INTERFACES_CONFIG_FILE
+# sudo echo "`IP_ADDRESS=$IP_ADDRESS SUBNETMASK=$SUBNETMASK envsubst < ./conf/ap-config/interfaces`" | sudo tee -a $INTERFACES_CONFIG_FILE
 
 nmcli con add type wifi ifname wlan0 con-name $SSID autoconnect yes ssid $SSID
 nmcli con modify $SSID 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared
-nmcli con modify $SSID wifi-sec.key-mgmt wpa-psk
-nmcli con modify $SSID wifi-sec.psk $DEFAULT_PASSPHRASE
 nmcli con up $SSID
 
 
