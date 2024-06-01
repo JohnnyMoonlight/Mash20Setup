@@ -44,13 +44,9 @@ sudo apt upgrade -y
 sudo apt install debhelper libmicrohttpd-dev libmagic-dev xcftools inkscape libi2c-dev libmnl-dev libcurl4-gnutls-dev libusb-dev libow-dev sysfsutils owfs -y
 
 # Clone, build and install Web20Mash
-
 git clone https://github.com/giggls/web20mash.git
 cd web20mash
 DEB_PACKAGE=web20mash dpkg-buildpackage -uc -b
-
-cd $WORKDIR
-
 sudo dpkg -i web20mash_4.2.2_armhf.deb
 
 cd $WORKDIR
