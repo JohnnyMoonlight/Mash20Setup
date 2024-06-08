@@ -51,7 +51,12 @@ sudo dpkg -i ../web20mash_4.2.2_armhf.deb
 
 cd $WORKDIR
 
-sudo echo "dtoverlay=w1-gpio,gpiopin=$PIN_NUMBER" | sudo tee -a /boot/config.txt
+# Activate w1 device tree. Load gpio and therm modules.
+sudo dtoverlay w1-gpio gpiopin=$PIN_NUMBER
+sudo modprobe w1-gpio
+sudo modprobe w1-therm
+
+#sudo echo "dtoverlay=w1-gpio,gpiopin=$PIN_NUMBER" | sudo tee -a /boot/config.txt
 sudo cp ./conf/owfs.conf /etc/owfs.conf
 sudo cp ./conf/sysfs.conf /etc/sysfs.conf
 sudo cp ./conf/mashctld.conf /etc/mashctld.conf
