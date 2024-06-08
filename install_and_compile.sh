@@ -52,9 +52,9 @@ sudo dpkg -i ../web20mash_4.2.2_armhf.deb
 cd $WORKDIR
 
 sudo echo "dtoverlay=w1-gpio,gpiopin=$PIN_NUMBER" | sudo tee -a /boot/config.txt
-sudo cp ../conf/owfs.conf /etc/owfs.conf
-sudo cp ../conf/sysfs.conf /etc/sysfs.conf
-sudo cp ../conf/mashctld.conf /etc/mashctld.conf
+sudo cp ./conf/owfs.conf /etc/owfs.conf
+sudo cp ./conf/sysfs.conf /etc/sysfs.conf
+sudo cp ./conf/mashctld.conf /etc/mashctld.conf
 
 # Setup access point
 # sudo apt install hostapd 
