@@ -47,7 +47,7 @@ sudo apt install debhelper libmicrohttpd-dev libmagic-dev xcftools inkscape libi
 git clone https://github.com/giggls/web20mash.git
 cd web20mash
 sudo make
-sudo install
+sudo make install
 #DEB_PACKAGE=web20mash dpkg-buildpackage -uc -b
 #sudo dpkg -i ../web20mash_4.2.2_armhf.deb
 
