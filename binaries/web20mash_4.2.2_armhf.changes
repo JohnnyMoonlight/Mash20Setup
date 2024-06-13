@@ -1,0 +1,29 @@
+Format: 1.8
+Date: Sun, 18 Apr 2021 13:39:09 +0100
+Source: web20mash
+Binary: web20mash web20mash-dbgsym
+Architecture: armhf
+Version: 4.2.2
+Distribution: buster
+Urgency: medium
+Maintainer: Sven Geggus <sven-web20mash@geggus.net>
+Changed-By: Sven Geggus <sven-debian@geggus.net>
+Description:
+ web20mash  - Web 2.0 base mash control software
+Changes:
+ web20mash (4.2.2) buster; urgency=medium
+ .
+   * Get rid of cdbs
+   * Build for debian 10 (buster) / RaspiOS
+Checksums-Sha1:
+ 788cf47071610e7f6a06feaea9831b708a80980f 80324 web20mash-dbgsym_4.2.2_armhf.deb
+ 1747bef18354e473dbef59a0e47b643f5d41f3d3 12506 web20mash_4.2.2_armhf.buildinfo
+ 6fe90b6667437527a014c22ee7a1f3ad9ed1d9f8 196336 web20mash_4.2.2_armhf.deb
+Checksums-Sha256:
+ 2bd1cc9591c4c096b95700b3cce98dd677ea2bb3b878b8d21ad887134c3d6e24 80324 web20mash-dbgsym_4.2.2_armhf.deb
+ cfdf49f8741869b1b860743e749b920dc5197afe72ecff1d836b9de9cd26f1b5 12506 web20mash_4.2.2_armhf.buildinfo
+ 2d9120b9e02665555df3c6031aba5c233c07d075bfe4ea89e7c73dffc5cb0d93 196336 web20mash_4.2.2_armhf.deb
+Files:
+ 46c7d0b8713137f5911f3bd3a4e2d2d6 80324 debug optional web20mash-dbgsym_4.2.2_armhf.deb
+ d826a2a168575f8b7e2fa21d00b2f700 12506 misc extra web20mash_4.2.2_armhf.buildinfo
+ da52cb9fdbdadd1ebcc1c702bba7549f 196336 misc extra web20mash_4.2.2_armhf.deb
