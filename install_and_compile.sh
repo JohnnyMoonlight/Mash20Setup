@@ -49,7 +49,7 @@ cd web20mash
 sudo make
 sudo make install
 #DEB_PACKAGE=web20mash dpkg-buildpackage -uc -b
-#sudo dpkg -i ../web20mash_4.2.2_armhf.deb
+sudo dpkg -i ../web20mash_4.2.2_armhf.deb
 
 cd $WORKDIR
 
