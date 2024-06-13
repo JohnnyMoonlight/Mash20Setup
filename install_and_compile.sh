@@ -85,6 +85,7 @@ nmcli con add type wifi ifname wlan0 con-name $SSID autoconnect yes ssid $SSID
 nmcli con modify $SSID 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared
 nmcli con up $SSID
 
+echo "cat `pwd`/banner.txt" | sudo tee -a /etc/bash.bashr
 
 #sudo systemctl disable dhcpcd.service
 #sudo systemctl enable dnsmasq
