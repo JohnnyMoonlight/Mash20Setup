@@ -49,9 +49,9 @@ sudo apt install debhelper libmicrohttpd-dev libmagic-dev xcftools inkscape libi
 #sudo make
 #sudo make install
 #DEB_PACKAGE=web20mash dpkg-buildpackage -uc -b
-sudo dpkg -i ../binaries/web20mash_4.2.2_armhf.deb
 
 cd $WORKDIR
+sudo dpkg -i binaries/web20mash_4.2.2_armhf.deb
 
 sudo echo "dtoverlay=w1-gpio,gpiopin=$PIN_NUMBER" | sudo tee -a /boot/firmware/config.txt
 sudo echo "w1-gpio" | sudo tee -a /etc/modules
