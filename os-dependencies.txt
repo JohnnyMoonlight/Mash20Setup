@@ -1,0 +1,12 @@
+debhelper
+libmicrohttpd-dev
+libmagic-dev
+xcftools
+inkscape
+libi2c-dev
+libmnl-dev
+libcurl4-gnutls-dev
+libusb-dev
+libow-dev
+sysfsutils
+owfs

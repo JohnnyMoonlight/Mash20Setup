@@ -40,7 +40,7 @@ sudo apt update -y
 sudo apt upgrade -y
 
 # Install dependencies
-
+sudo apt-get install $(cat os-dependencies.txt)
 sudo apt install debhelper libmicrohttpd-dev libmagic-dev xcftools inkscape libi2c-dev libmnl-dev libcurl4-gnutls-dev libusb-dev libow-dev sysfsutils owfs -y
 
 # Clone, build and install Web20Mash
