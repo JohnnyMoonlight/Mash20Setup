@@ -44,11 +44,11 @@ sudo apt-get install $(cat os-dependencies.txt)
 sudo apt install debhelper libmicrohttpd-dev libmagic-dev xcftools inkscape libi2c-dev libmnl-dev libcurl4-gnutls-dev libusb-dev libow-dev sysfsutils owfs -y
 
 # Clone, build and install Web20Mash
-#git clone https://github.com/giggls/web20mash.git
-#cd web20mash
+git clone https://github.com/giggls/web20mash.git
+cd web20mash
 #sudo make
-#sudo make install
-#DEB_PACKAGE=web20mash dpkg-buildpackage -uc -b
+sudo make install
+DEB_PACKAGE=web20mash dpkg-buildpackage -uc -b
 
 cd $WORKDIR
 sudo dpkg -i binaries/web20mash_4.2.2_armhf.deb
@@ -93,6 +93,7 @@ sudo systemctl enable webmash
 #sudo systemctl enable hostapd
 #sudo systemctl enable ssh
 
+exit 0
 #sudo reboot now
 
 
